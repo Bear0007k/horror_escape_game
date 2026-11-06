@@ -362,7 +362,25 @@ function showToast(message, duration=2400) {
 }
 function say(speaker, message, duration=4500) {
   ui.speaker.textContent=speaker; ui.dialogueText.textContent=message; ui.dialogue.classList.remove('hidden');
+  if(speaker.startsWith('DR.')) speakDoctorDialogue(message);
+  else stopDoctorVoice();
   setTimeout(()=>ui.dialogue.classList.add('hidden'),duration);
+}
+function selectDoctorVoice() {
+  if(!('speechSynthesis' in window)) return null;
+  const voices=window.speechSynthesis.getVoices();
+  const english=voices.filter(voice=>voice.lang.toLowerCase().startsWith('en'));
+  return english.find(voice=>/male|david|daniel|alex|mark|james/i.test(voice.name))||english[0]||voices[0]||null;
+}
+function speakDoctorDialogue(message) {
+  if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window)) return;
+  const synth=window.speechSynthesis, utterance=new SpeechSynthesisUtterance(message), voice=selectDoctorVoice();
+  if(voice) { utterance.voice=voice; utterance.lang=voice.lang; }
+  utterance.rate=.82; utterance.pitch=.62; utterance.volume=.86;
+  synth.cancel(); synth.speak(utterance);
+}
+function stopDoctorVoice() {
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
 }
 function updateAttempts() {
   ui.attempts.innerHTML='';
@@ -394,7 +412,7 @@ function begin() {
 }
 function resume() { state.paused=false; ui.pause.classList.add('hidden'); document.body.requestPointerLock?.(); }
 function showEnding(escaped) {
-  state.active=false; state.paused=false; document.exitPointerLock?.(); ui.dialogue.classList.add('hidden'); ui.prompt.classList.add('hidden');
+  state.active=false; state.paused=false; stopDoctorVoice(); document.exitPointerLock?.(); ui.dialogue.classList.add('hidden'); ui.prompt.classList.add('hidden');
   ui.endingTitle.textContent=escaped?'YOU MADE IT OUT.':'THE WARD KEEPS YOU.';
   const descent = state.catches===0 ? 'a clean descent' : `${state.catches} ${state.catches===1?'reset':'resets'}`;
   ui.endingCopy.textContent=escaped?`You reached the ground floor after ${descent}. The morning staff will find the door open.`:`Five times they brought you back upstairs. The sixth time, you didn’t wake up.`;
@@ -402,7 +420,7 @@ function showEnding(escaped) {
 }
 function caught() {
   if(state.caught || !state.active) return;
-  state.caught=true; state.catches++; playSound(36,.8,'sawtooth',.12); ui.damage.classList.add('active'); ui.blackout.classList.add('active');
+  state.caught=true; state.catches++; stopDoctorVoice(); playSound(36,.8,'sawtooth',.12); ui.damage.classList.add('active'); ui.blackout.classList.add('active');
   ui.dialogue.classList.add('hidden'); ui.prompt.classList.add('hidden'); state.active=false;
   setTimeout(()=>{
     ui.damage.classList.remove('active'); ui.blackout.classList.remove('active');
@@ -441,7 +459,7 @@ function interact() {
       if(!state.hasCard) { showToast('ACCESS DENIED · KEYCARD REQUIRED'); playSound(87,.2,'square',.04); return; }
       if(state.floor===1) { playSound(250,.8,'sine',.08); showEnding(true); return; }
       state.active=false; playSound(94,.4,'sine',.08); ui.blackout.classList.add('active');
-      setTimeout(()=>{ state.floor--; makeFloor(); ui.blackout.classList.remove('active'); state.active=true; ui.status.textContent='NO SIGNAL'; showToast(`STAIRWELL · FLOOR ${floors[5-state.floor]}`); say('UNSIGNED NOTE','The lights are warmer downstairs. Something else is, too.',4000); document.body.requestPointerLock?.(); },600); return;
+      stopDoctorVoice(); setTimeout(()=>{ state.floor--; makeFloor(); ui.blackout.classList.remove('active'); state.active=true; ui.status.textContent='NO SIGNAL'; showToast(`STAIRWELL · FLOOR ${floors[5-state.floor]}`); say('UNSIGNED NOTE','The lights are warmer downstairs. Something else is, too.',4000); document.body.requestPointerLock?.(); },600); return;
     }
   }
   const nearby = enemies.find((e)=>camera.position.distanceTo(e.position)<3.5);
@@ -583,7 +601,7 @@ addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.upd
 addEventListener('keydown',(event)=>{
   keys.add(event.code);
   if(event.code==='KeyE' && state.active && !state.paused) interact();
-  if(event.code==='Escape' && state.active && document.pointerLockElement===document.body) { state.paused=true; ui.pause.classList.remove('hidden'); }
+  if(event.code==='Escape' && state.active && document.pointerLockElement===document.body) { state.paused=true; stopDoctorVoice(); ui.pause.classList.remove('hidden'); }
   if(event.code==='KeyM' && state.audio) { state.audioOn=!state.audioOn; if(state.audioOn) state.audio.resume(); else state.audio.suspend(); showToast(state.audioOn?'WARD HUM ON':'WARD HUM OFF'); }
 });
 addEventListener('keyup',(event)=>keys.delete(event.code));

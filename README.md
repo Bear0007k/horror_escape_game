@@ -11,6 +11,6 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite. The game uses pointer lock: click **Begin Descent**, move with **W A S D**, look with the **mouse**, and press **E** near a door to open it or near a person to speak. Search the rooms and press **E** at the keycard and stairwell. Hold **Shift** to run; plague doctors now pursue much faster than patients. Press **Escape** to pause.
+Open the local URL printed by Vite. The game uses pointer lock: click **Begin Descent**, move with **W A S D**, look with the **mouse**, and press **E** near a door to open it or near a person to speak. Doctor dialogue is spoken using the browser's built-in text-to-speech voice; patient dialogue remains text. Search the rooms and press **E** at the keycard and stairwell. Hold **Shift** to run; plague doctors pursue faster than patients. Press **Escape** to pause.
 
 The game is built with Three.js and Vite. The hospital is generated in the browser; no external game assets are required.
