@@ -332,7 +332,9 @@ function createEnemy(kind, x, z, index = 0) {
     for(const dx of [-.18,.18]) { const leg = new THREE.Mesh(new THREE.CylinderGeometry(.13,.17,.8,7),darkCloth); leg.position.set(dx,.4,0); leg.castShadow=true; root.add(leg); }
   }
   const shadow = new THREE.PointLight(kind==='doctor'?0xa22320:0x8b9b6b,1.3,4.8); shadow.position.set(0,1,0); root.add(shadow);
-  root.userData.speed=kind==='doctor'?4.0:1.1;
+  const descentProgress=(5-state.floor)/4;
+  const floorPace=.65+descentProgress*.35;
+  root.userData.speed=(kind==='doctor'?4.0:1.1)*floorPace;
   root.userData.spawnRoom=roomAt(x,z);
   root.userData.lines=kind==='doctor' ? ['You missed your appointment.','Back to your room. Now.','The elevator is for staff only.'] : ['The stairs go down. They always go down.','It knows when you run.','Don’t look in the windows.','I was here before the lights went out.'];
   enemies.push(root);

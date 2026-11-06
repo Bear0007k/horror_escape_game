@@ -2,7 +2,7 @@
 
 A first-person 3D horror escape game set across five distinct hospital floors: the general ward, operating theatre, records archive, isolation wing, and morgue. Each floor has named rooms branching off the corridor, with doors that open into the rooms. Search room furniture for the hidden keycard, then use the correctly oriented stairwell door to descend. Each capture sends you back to Floor 05; five captures end the run.
 
-Plague doctor PNGs in `public/assets/` provide the doctor visuals; the game uses the supplied transparent artwork directly. Doctors and patients arrive in randomly selected rooms at staggered random intervals, pursue the player inside their detection radius, and return to wandering when the player gets away. The floors and room props are procedurally assembled in Three.js with separate lighting palettes and brightness levels.
+Plague doctor PNGs in `public/assets/` provide the doctor visuals; the game uses the supplied transparent artwork directly. Doctors and patients arrive in randomly selected rooms at staggered random intervals, pursue the player inside their detection radius, and return to wandering when the player gets away. Their speed increases on each descent: Floor 05 starts at 65% of the Floor 01 pace. The floors and room props are procedurally assembled in Three.js with separate lighting palettes and brightness levels.
 
 ## Play
 
