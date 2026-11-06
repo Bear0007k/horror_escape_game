@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#080b0c" />
+    <meta name="description" content="A first-person horror escape through the abandoned Saint Agnes hospital." />
+    <title>LAST LIGHT — Saint Agnes Hospital</title>
+  </head>
+  <body>
+    <div id="game-shell">
+      <canvas id="game"></canvas>
+
+      <div id="vignette" aria-hidden="true"></div>
+      <div id="grain" aria-hidden="true"></div>
+      <div id="damage-flash" aria-hidden="true"></div>
+
+      <header id="hud" class="hidden">
+        <div class="brand-mark"><span class="brand-cross">✚</span><span>SAINT AGNES<br /><small>INPATIENT WING</small></span></div>
+        <div class="floor-readout"><span class="eyebrow">CURRENT LOCATION</span><strong id="floor-label">FLOOR 05</strong><span id="floor-subtitle">NORTH WING</span></div>
+        <div class="tries-readout"><span class="eyebrow">WAKING HOURS</span><div id="attempt-icons"></div><span id="tries-label">5 chances remain</span></div>
+      </header>
+
+      <div id="crosshair" class="hidden"><i></i><b></b></div>
+      <div id="interact-prompt" class="hidden"><kbd>E</kbd><span id="prompt-text">INTERACT</span></div>
+      <div id="objective" class="hidden"><span class="objective-dot"></span><span id="objective-text">Find the ward keycard</span></div>
+      <div id="whisper" class="hidden"><span class="whisper-line"></span><span id="whisper-text"></span></div>
+      <div id="dialogue" class="hidden" role="status">
+        <div class="dialogue-meta"><span id="speaker">PATIENT 04</span><span>SAINT AGNES · 02:17 AM</span></div>
+        <p id="dialogue-text"></p>
+      </div>
+      <div id="toast" class="hidden"></div>
+      <div id="blackout" class="hidden"></div>
+
+      <section id="title-screen" class="screen">
+        <div class="title-backdrop"></div>
+        <div class="title-content">
+          <div class="case-label"><span></span> PATIENT FILE 0081 <span></span></div>
+          <h1>LAST<br /><em>LIGHT</em></h1>
+          <p class="title-location">SAINT AGNES HOSPITAL <span>/</span> 02:17 AM</p>
+          <div class="title-rule"></div>
+          <p class="title-copy">Five floors below the surface.<br />Something is awake on every one.</p>
+          <button id="start-button" class="primary-button"><span>BEGIN DESCENT</span><b>↗</b></button>
+          <p class="controls-line">W A S D <span>MOVE</span> &nbsp; · &nbsp; MOUSE <span>LOOK</span> &nbsp; · &nbsp; E <span>USE / SPEAK</span> &nbsp; · &nbsp; SHIFT <span>RUN</span></p>
+        </div>
+        <div class="title-side-note">RESTRICTED AREA<br />AUTHORIZED PERSONNEL ONLY</div>
+        <div class="title-coord">34° 03′ 11″ N<br />118° 14′ 37″ W</div>
+      </section>
+
+      <section id="pause-screen" class="screen hidden">
+        <div class="pause-card"><div class="case-label"><span></span> HOLD YOUR BREATH <span></span></div><h2>PAUSED</h2><p>The ward is still listening.</p><button id="resume-button" class="primary-button"><span>RETURN TO THE WARD</span><b>↗</b></button><button id="pause-quit" class="text-button">GIVE UP</button></div>
+      </section>
+
+      <section id="ending-screen" class="screen hidden">
+        <div class="ending-card"><div class="case-label"><span></span> SAINT AGNES · INCIDENT REPORT <span></span></div><h2 id="ending-title">YOU MADE IT OUT.</h2><p id="ending-copy"></p><button id="restart-button" class="primary-button"><span>ENTER THE WARD AGAIN</span><b>↗</b></button></div>
+      </section>
+
+      <footer id="footer-mark" class="hidden"><span>SAINT AGNES MEMORIAL HOSPITAL</span><span id="status-label">NO SIGNAL</span><span>EST. 1891</span></footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
